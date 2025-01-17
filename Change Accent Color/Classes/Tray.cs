@@ -2,6 +2,7 @@
 using ColorPickerWPF.Code;
 using Hardcodet.Wpf.TaskbarNotification;
 using System.Diagnostics;
+using System.Reflection;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,7 +26,7 @@ public class Tray
 
         MenuItem title = new()
         {
-            Header = "by J0nathan550",
+            Header = $"by J0nathan550 (version {Assembly.GetEntryAssembly()!.GetName().Version})",
             IsEnabled = false
         };
         MenuItem changeAccentColorMenuItem = new()
@@ -78,12 +79,15 @@ public class Tray
         exitRemoveApp.Click += ExitRemoveApp_Click;
 
         contextMenu.Items.Add(title);
+        contextMenu.Items.Add(new Separator());
         contextMenu.Items.Add(changeAccentColorMenuItem);
         contextMenu.Items.Add(changeInactiveAccentColorMenuItem);
         contextMenu.Items.Add(changeColorizationAfterGlowMenuItem);
         contextMenu.Items.Add(changeColorizationColorMenuItem);
+        contextMenu.Items.Add(new Separator());
         contextMenu.Items.Add(runOnStartupItem);
         contextMenu.Items.Add(githubMenuItem);
+        contextMenu.Items.Add(new Separator());
         contextMenu.Items.Add(exitKeepApp);
         contextMenu.Items.Add(exitRemoveApp);
 
@@ -178,7 +182,7 @@ public class Tray
 
     private static void GithubMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        string url = "https://github.com/J0nathan550";
+        string url = "https://github.com/J0nathan550/Change-Accent-Color";
 
         try
         {

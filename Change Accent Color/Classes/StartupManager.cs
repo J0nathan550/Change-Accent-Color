@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
-using System.IO;
-using System.Windows;
+using System.Diagnostics;
 
 namespace Change_Accent_Color.Classes;
 
@@ -24,7 +23,7 @@ public static class StartupManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"An error occurred while checking startup status: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                Trace.WriteLine(ex);
                 return false;
             }
         }
@@ -38,15 +37,11 @@ public static class StartupManager
         try
         {
             using RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true)!;
-            if (key != null)
-            {
-                key.SetValue(AppName, $"\"{AppPath}\"");
-                MessageBox.Show("Startup enabled successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            key?.SetValue(AppName, $"\"{AppPath}\"");
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"An error occurred while enabling startup: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            Trace.WriteLine(ex);
         }
     }
 
@@ -61,16 +56,11 @@ public static class StartupManager
             if (key != null && key.GetValue(AppName) != null)
             {
                 key.DeleteValue(AppName);
-                MessageBox.Show("Startup disabled successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show("The app is not set to start with Windows.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"An error occurred while disabling startup: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            Trace.WriteLine(ex);
         }
     }
 
